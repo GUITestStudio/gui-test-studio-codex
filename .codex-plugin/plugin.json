@@ -1,0 +1,129 @@
+{
+  "name": "gui-test-studio",
+  "version": "1.1.0",
+  "description": "Create, run and change automated end-to-end tests of Windows apps and web pages from a prompt, with the GUI Test Studio desktop app.",
+  "author": {
+    "name": "GUI Test Studio",
+    "email": "support@guiteststudio.com",
+    "url": "https://www.guiteststudio.com"
+  },
+  "homepage": "https://www.guiteststudio.com/docs/claude",
+  "repository": "https://github.com/GUITestStudio/gui-test-studio-codex",
+  "license": "LicenseRef-GUITestStudio-Proprietary",
+  "keywords": [
+    "end-to-end testing",
+    "e2e",
+    "gui testing",
+    "test automation",
+    "regression testing",
+    "windows",
+    "web testing",
+    "ci-cd"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "requires_local_executor": true,
+  "interface": {
+    "displayName": "GUI Test Studio",
+    "shortDescription": "End-to-end tests from a prompt",
+    "longDescription": "Create, run and change automated end-to-end tests of Windows apps and web pages by describing them. Ask \"open the calculator, compute 12 x 7 and check that it shows 84\" and Codex performs the steps on your real screen with GUI Test Studio's tools, checks every result as it goes (texts, values, pictures, counts, layouts) and saves a test you can run again from a terminal or a CI/CD pipeline, or open in GUI Test Studio to edit visually.\n\nIt also runs a saved test and reports its verdict, changes a saved test in place after listing the changes and asking you, generates a web test for other browsers and devices (Chrome, Edge, Firefox, phones, tablets), and makes a test from a Figma design.\n\nFor QA teams and developers who want reliable end-to-end tests without writing test scripts.\n\nLimitations: Desktop only, on Windows 10 or 11. It needs the GUI Test Studio desktop app installed (guiteststudio.com/download), connected to Codex, and a GUI Test Studio account signed in on this computer. It controls the mouse and keyboard of the computer it runs on while it records or runs a test.",
+    "developerName": "GUI Test Studio",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Create an end-to-end test from a prompt",
+      "Run a saved test and report its verdict",
+      "Change a saved test in place after you confirm",
+      "Test web apps on other browsers and devices",
+      "Make a test from a Figma design"
+    ],
+    "websiteURL": "https://www.guiteststudio.com",
+    "supportURL": "https://www.guiteststudio.com/support",
+    "privacyPolicyURL": "https://www.guiteststudio.com/privacy",
+    "termsOfServiceURL": "https://www.guiteststudio.com/terms",
+    "defaultPrompt": [
+      "With GUI Test Studio, open the calculator, compute 5 + 5 and verify the result shows 10.",
+      "With GUI Test Studio, run my test and tell me its verdict.",
+      "With GUI Test Studio, test the sign-up form of my web page in Chrome and Edge."
+    ],
+    "brandColor": "#7c5cff",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Create a test of a Windows app from a prompt",
+              "prompt": "With GUI Test Studio, open the Calculator, compute 5 + 5 and verify the result shows 10.",
+              "tools_triggered": "status, start_recording, click, verify_text, finish_recording",
+              "expected_behavior": "Codex opens Calculator through the recording, clicks 5, +, 5 and =, adds a text check that the display reads 10 (accepted because it is on screen), finishes the recording and says where the test was saved, then offers to run it."
+            },
+            {
+              "description": "Run a saved test and report its verdict",
+              "prompt": "With GUI Test Studio, run my calculator test and tell me if it passed.",
+              "tools_triggered": "list_tests, run_test",
+              "expected_behavior": "Codex finds the saved calculator test, runs it on the screen and answers PASSED with the number of checks that passed and where the run's report is."
+            },
+            {
+              "description": "Describe what a saved test checks",
+              "prompt": "With GUI Test Studio, what does my calculator test check, step by step?",
+              "tools_triggered": "describe_test",
+              "expected_behavior": "Codex lists the test's numbered steps (the clicks and the check that the display reads 10) without changing anything."
+            },
+            {
+              "description": "Change a saved test in place after confirmation",
+              "prompt": "With GUI Test Studio, in my calculator test, make the check wait up to 10 seconds.",
+              "tools_triggered": "describe_test, edit_test",
+              "expected_behavior": "Codex shows the change it would make (the check's timeout set to 10 seconds) and asks before writing; only after the user agrees does it apply it with confirm: true and say the test was updated. No new recording is made."
+            },
+            {
+              "description": "Create a test of a web page",
+              "prompt": "With GUI Test Studio, open https://example.com in Microsoft Edge and verify the page shows the heading Example Domain.",
+              "tools_triggered": "status, start_recording, verify_text, finish_recording",
+              "expected_behavior": "Codex records a web test that opens the page in Edge, adds a text check for Example Domain (accepted because the page shows it) and says where the test was saved."
+            }
+          ],
+          "negative": [
+            {
+              "description": "A request unrelated to testing",
+              "prompt": "What is the weather in Paris tomorrow?"
+            },
+            {
+              "description": "A test script in another framework is not what the plugin makes",
+              "prompt": "Write me a Selenium script in Python for my login page."
+            },
+            {
+              "description": "Payments are not handled by the plugin",
+              "prompt": "Buy a GUI Test Studio subscription for my team with my card."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "The plugin does not sell anything or process payments. Plans are bought on guiteststudio.com."
+      },
+      "publication": {
+        "release_notes": "First release: create, run, describe and change end-to-end tests of Windows apps and web pages from a prompt, web tests on other browsers and devices, and tests from a Figma design.",
+        "translations": {
+          "fr-FR": {
+            "subtitle": "Tests E2E à partir d'un prompt",
+            "description": "Créez, exécutez et modifiez des tests de bout en bout automatisés d'applications Windows et de pages web en les décrivant. Codex effectue les étapes sur votre écran avec les outils de GUI Test Studio, vérifie chaque résultat et enregistre un test que vous pouvez relancer depuis un terminal ou un pipeline CI/CD. Uniquement sur ordinateur, sous Windows 10 ou 11, avec l'application GUI Test Studio installée, connectée à Codex, et un compte connecté."
+          },
+          "es-ES": {
+            "subtitle": "Pruebas E2E desde un prompt",
+            "description": "Cree, ejecute y modifique pruebas de extremo a extremo automatizadas de aplicaciones Windows y páginas web describiéndolas. Codex realiza los pasos en su pantalla con las herramientas de GUI Test Studio, comprueba cada resultado y guarda una prueba que puede volver a ejecutar desde una terminal o un pipeline CI/CD. Solo en escritorio, en Windows 10 u 11, con la aplicación GUI Test Studio instalada, conectada a Codex, y una cuenta iniciada."
+          },
+          "de-DE": {
+            "subtitle": "E2E-Tests aus einem Prompt",
+            "description": "Erstellen, starten und ändern Sie automatisierte End-to-End-Tests von Windows-Apps und Webseiten, indem Sie sie beschreiben. Codex führt die Schritte mit den Werkzeugen von GUI Test Studio auf Ihrem Bildschirm aus, prüft jedes Ergebnis und speichert einen Test, den Sie im Terminal oder in einer CI/CD-Pipeline erneut ausführen können. Nur auf dem Desktop, unter Windows 10 oder 11, mit installierter GUI Test Studio App, mit Codex verbunden, und einem angemeldeten Konto."
+          },
+          "it-IT": {
+            "subtitle": "Test E2E da un prompt",
+            "description": "Create, eseguite e modificate test end-to-end automatizzati di app Windows e pagine web descrivendoli. Codex esegue i passaggi sul vostro schermo con gli strumenti di GUI Test Studio, verifica ogni risultato e salva un test che potete rieseguire da un terminale o da una pipeline CI/CD. Solo desktop, su Windows 10 o 11, con l'app GUI Test Studio installata, collegata a Codex, e un account con accesso effettuato."
+          }
+        }
+      }
+    }
+  }
+}
